@@ -1,0 +1,7 @@
+---
+- name: Build Docker images from Dockerfiles.
+  docker_image:
+    name: webhost
+    tag: latest
+    path: /vagrant/docker/
+    state: build
