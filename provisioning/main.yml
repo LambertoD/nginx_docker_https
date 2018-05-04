@@ -1,8 +1,17 @@
 ---
 - hosts: all
   become: yes
+
+  vars_files:
+    - vars/main.yml
+
+  pre_tasks:
+    - name: Ensure apt cache is updated
+      apt: update_cache=yes cache_valid_time=6000
+
   roles:
-    - role: angstwad.docker_ubuntu
+    - angstwad.docker_ubuntu
+
   tasks:
     - import_tasks: setup.yml
     - import_tasks: docker.yml
