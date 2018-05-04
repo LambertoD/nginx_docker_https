@@ -8,7 +8,7 @@ It creates self signed certificates for use by Nginx
 * [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 * Ansible Roles
     * [angstwad.docker_ubuntu](https://github.com/angstwad/docker.ubuntu)
-*  Setup self-signed certificates.  Follow instructions [here](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-16-04)
+*  Setup self-signed certificates.  Follow instructions [here](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-16-04) or using [letsencrypt](https://certbot.eff.org/lets-encrypt/ubuntuxenial-nginx)
 
 
 ##  Steps for starting WebServer
@@ -37,9 +37,14 @@ alternatively do `gpasswd -a vagrant docker` to have sudo access
 
 
 5.  Deploy container in host.
-`sudo docker container run -p 80:80 --rm webhost:latest`
+`sudo docker container run -p 80:80 --rm webhost:latest -v /etc/nginx/certs:/etc/nginx/certs`
 
-6.  Access the site "192.168.153.54"
+`docker container run -d -p 80:80  -v $(pwd)/files/certs/etc/ssl/certs/:/etc/ssl/certs/ -v $(pwd)/files/certs/etc/ssl/private:/etc/ssl/private/ -v $(pwd)/files/certs/etc/nginx/snippets/:/etc/nginx/snippets/ webhost:latest`
+
+`docker container run -d -p 80:80  -v /etc/ssl/certs/:/etc/ssl/certs/ -v /etc/ssl/private:/etc/ssl/private/ -v /etc/nginx/snippets/:/etc/nginx/snippets/ webhost:latest`
+
+
+6.  Access the site "192.168.153.54" which should redirect to "https://192.168.153.54"
 
 
 

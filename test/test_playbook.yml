@@ -1,0 +1,17 @@
+---
+- hosts: control
+  tasks:
+    - name:  Check localhost:80 spits out an HTTPS site
+      uri:
+        url: "http://localhost"
+        method: GET
+        return_content: yes
+      register: site_response
+      ignore_errors: yes
+
+    - debug:
+        msg: "Site Response Code:  {{site_response.status}}"
+
+    - set_fact:
+        site_launch_failed: true
+      when: "{{ site_response.status}} "

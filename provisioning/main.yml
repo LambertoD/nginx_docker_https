@@ -2,16 +2,10 @@
 - hosts: all
   become: yes
 
-  vars_files:
-    - vars/main.yml
-
-  pre_tasks:
-    - name: Ensure apt cache is updated
-      apt: update_cache=yes cache_valid_time=6000
-
   roles:
     - angstwad.docker_ubuntu
+    # - geerlingguy.firewall
 
   tasks:
     - import_tasks: setup.yml
-    - import_tasks: docker.yml
+    # - import_tasks: docker.yml

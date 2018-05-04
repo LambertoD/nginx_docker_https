@@ -6,3 +6,38 @@
 - name: Install Docker Python library.
   pip: name=docker state=present
   become: yes
+
+- name: Install Tools
+  apt: name={{ item }} state=present  update_cache=yes
+  with_items:
+    - software-properties-common
+  become: yes
+
+- name: Add repo
+  apt_repository:
+    repo: ppa:certbot/certbot
+    state: present
+
+- name: Install CertBot
+  apt: name={{ item }} state=present  update_cache=yes
+  with_items:
+    - python-certbot-nginx
+  become: yes
+
+- name: Create certs directory
+  file:
+    path: /etc/nginx/certs
+    state: directory
+    mode: 0755
+
+- name: Copy CRT
+  copy:
+    src: ../docker/files/letsencrypt/csr/0000_csr-certbot.pem
+    dest: /etc/nginx/certs/example.com.crt
+    mode: 0600
+
+- name: Copy KEY
+  copy:
+    src: ../docker/files/letsencrypt/keys/0000_key-certbot.pem
+    dest: /etc/nginx/certs/example.com.key
+    mode: 0600
