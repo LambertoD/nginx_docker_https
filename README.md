@@ -46,6 +46,10 @@ alternatively do `gpasswd -a vagrant docker` to have sudo access
 
 6.  Access the site "192.168.153.54" which should redirect to "https://192.168.153.54"
 
+NOTE:  #6 still work in progress due to issues experienced with
+ geerlingguy.firewall  >> how to setup host based firewall for ports 22, 80, 443
+ setting up NGINX with https.   setup conf files
+ setup docker to work with firewall
 
 
 License
